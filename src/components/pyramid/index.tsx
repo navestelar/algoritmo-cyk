@@ -21,7 +21,7 @@ export function Pyramid() {
   )
 }
 
-function generatePyramid(lines) {
+function generatePyramid(lines: number) {
   const pyramid = [];
   for (let i = 0; i < lines; i++) {
     const row = [];
