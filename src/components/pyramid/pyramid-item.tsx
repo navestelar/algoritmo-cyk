@@ -4,6 +4,7 @@ interface PyramidItemProps {
   value?: string
 }
 
+//aqui vai ser colocado as váriaveis
 export function PyramidItem({
   value = ''
 }: PyramidItemProps) {
