@@ -4,10 +4,12 @@ import { PyramidItem } from "./pyramid-item";
 
 interface PyramidProps {
   pyramid: string[][][]
+  expression: string
 }
 
 export function Pyramid({
-  pyramid
+  pyramid,
+  expression
 }: PyramidProps) {
   return (
     <div className="flex flex-col gap-4">
@@ -24,6 +26,11 @@ export function Pyramid({
             })}
           </div>
         ))}
+        <div className="flex justify-start gap-2">
+          {expression.split('').map((value, index) => (
+            <PyramidItem key={index} value={value} />
+          ))}
+        </div>
       </div>
     </div>
   )

@@ -13,6 +13,7 @@ const queryClient = new QueryClient()
 
 export default function Home() {
   const [pyramid, setPyramid] = useState<string[][][]>(generatePyramid(5))
+  const [expression, setExpression] = useState<string>('')
 
   function handleSubmit(data: grammarProps) {
     const processedData: Grammar = data.rules.map(([valor, valores]) => [
@@ -24,8 +25,11 @@ export default function Home() {
 
     if (result) {
       setPyramid(table)
+      setExpression(data.expression)
       toast.success(`A cadeia ${data.expression} pode ser gerada pela gramática apresentada`)
     } else {
+      setPyramid(generatePyramid(5))
+      setExpression('')
       toast.error(`A cadeia ${data.expression} não pode ser gerada pela gramática apresentada`)
     }
   }
@@ -37,7 +41,7 @@ export default function Home() {
         <Header />
 
         <main className="flex w-full justify-between mx-auto max-w-[1200px] mt-14 max-lg:mx-5">
-          <Pyramid pyramid={pyramid} />
+          <Pyramid pyramid={pyramid} expression={expression} />
           <GrammarForm onSubmit={handleSubmit} />
         </main>
       </div>
