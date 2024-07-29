@@ -1,5 +1,5 @@
 export type Rule = [string, string[]];
-type Grammar = Rule[];
+export type Grammar = Rule[];
 
 export function cykAlgorithm(grammar: Grammar, expression: string): { table: string[][][], result: boolean } {
   const n = expression.length;
@@ -27,10 +27,9 @@ export function cykAlgorithm(grammar: Grammar, expression: string): { table: str
           const [lhs, rhs] = rule;
           for (let production of rhs) {
             if (production.length === 2) {
-              const [B, C] = production;
               if (
-                table[s - 1][p - 1].includes(B) &&
-                table[s + p - 1][l - p - 1].includes(C)
+                table[s - 1][p - 1].includes(production[0]) &&
+                table[s + p - 1][l - p - 1].includes(production[1])
               ) {
                 table[s - 1][l - 1].push(lhs);
               }

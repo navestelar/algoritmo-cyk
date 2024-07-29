@@ -8,7 +8,7 @@ import { ArrowRight, XCircle } from '@phosphor-icons/react';
 import { Button } from './ui/button';
 
 const formularioSchema = z.object({
-  expression: z.string(),
+  expression: z.string().min(1),
   rules: z.array(
     z.array(
       z.string().min(1),
@@ -17,22 +17,19 @@ const formularioSchema = z.object({
   )
 })
 
+export type grammarProps = z.infer<typeof formularioSchema>
 
-type grammarProps = z.infer<typeof formularioSchema>
+interface GrammarFormProps {
+  onSubmit: (data: grammarProps) => void
+}
 
-export function GrammarForm() {
+export function GrammarForm({
+  onSubmit
+}: GrammarFormProps) {
   const { control, register, handleSubmit, setValue, watch, formState: { errors } } = useForm<grammarProps>({
     defaultValues: {rules: [['', '']]},
     resolver: zodResolver(formularioSchema)
   });
-
-  function onSubmit(data: grammarProps) {
-    const processedData = data.rules.map(([valor, valores]) => [
-      valor,
-      valores.split('|').map(s => s.trim())
-    ]);
-    console.log('Dados enviados:', processedData);
-  };
 
   function removeField(index: number) {
     const updatedrules = rules.filter((_, i) => i !== index);
@@ -48,7 +45,7 @@ export function GrammarForm() {
         <p className="text-xs">Verifique se a expressão pertence à gramática</p>
       </div>
       <div className="flex items-center gap-2">
-        <Input {...register('expression')} />
+        <Input {...register('expression')} isInvalid={Boolean(errors?.expression)} />
         <Button type='submit'>Verificar</Button>
       </div>
 
